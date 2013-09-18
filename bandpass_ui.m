@@ -58,10 +58,18 @@ handles.output = hObject;
 % Update handles structure
 guidata(hObject, handles);
 
+if isempty(varargin)
+    imported = uiimport;
+    name = fieldnames(imported);
+    varargin{1} = getfield(imported, name{1});
+end
+
 subplot(1,2,1)
 imagesc(varargin{1})
 colormap julio
 set(gca,'DataAspectRatio',[1 1 1]);
+axis off
+
 handles.img = varargin{1};
 guidata(hObject, handles);
 
@@ -91,6 +99,7 @@ img = bandpass_img( handles.img, sig1, sig2 );
 subplot(1,2,2)
 imagesc(img)
 set(gca,'DataAspectRatio',[1 1 1]);
+axis off
 
 handles.filteredImg = img;
 guidata(hObject, handles);
@@ -147,7 +156,8 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-uisave( 'handles.filteredImg' );
+img = handles.filteredImg;
+uisave( 'img' );
 
 
 
