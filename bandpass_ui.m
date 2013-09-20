@@ -65,9 +65,13 @@ if isempty(varargin)
 end
 
 subplot(1,2,1)
-imagesc(varargin{1})
+img = varargin{1};
+imagesc(img)
 colormap julio
 set(gca,'DataAspectRatio',[1 1 1]);
+stdev = std(img(:));
+avg = mean(img(:));
+set(gca, 'clim', [avg-2*stdev,avg+2*stdev])
 axis off
 
 handles.img = varargin{1};
@@ -99,7 +103,11 @@ img = bandpass_img( handles.img, sig1, sig2 );
 subplot(1,2,2)
 imagesc(img)
 set(gca,'DataAspectRatio',[1 1 1]);
+stdev = std(img(:));
+avg = mean(img(:));
+set(gca, 'clim', [avg-2*stdev,avg+2*stdev])
 axis off
+
 
 handles.filteredImg = img;
 guidata(hObject, handles);
